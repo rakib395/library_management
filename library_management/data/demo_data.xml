@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="demo_cat_1" model="library.category">
+            <field name="name">Programming</field>
+        </record>
+        <record id="demo_cat_2" model="library.category">
+            <field name="name">Fiction</field>
+        </record>
+        <record id="demo_cat_3" model="library.category">
+            <field name="name">History</field>
+        </record>
+
+        <record id="demo_book_1" model="library.book">
+            <field name="name">Python Programming</field>
+            <field name="author">Greg Moss</field>
+            <field name="isbn">111-222</field>
+            <field name="category_id" ref="demo_cat_1"/>
+        </record>
+
+        <record id="demo_book_2" model="library.book">
+            <field name="name">The Alchemist</field>
+            <field name="author">Paulo</field>
+            <field name="isbn">999-88</field>
+            <field name="category_id" ref="demo_cat_2"/>
+        </record>
+
+        <record id="demo_book_3" model="library.book">
+            <field name="name">Clean Code</field>
+            <field name="author">Robert</field>
+            <field name="isbn">101-202</field>
+            <field name="category_id" ref="demo_cat_1"/>
+        </record>
+
+        <record id="demo_book_4" model="library.book">
+            <field name="name">A Brief History of Time</field>
+            <field name="author">Stephen Hawking</field>
+            <field name="isbn">555-666</field>
+            <field name="category_id" ref="demo_cat_3"/>
+        </record>
+
+        <record id="demo_book_5" model="library.book">
+            <field name="name">1984</field>
+            <field name="author">George</field>
+            <field name="isbn">444-555</field>
+            <field name="category_id" ref="demo_cat_2"/>
+        </record>
+
+        <record id="demo_book_6" model="library.book">
+            <field name="name">Sapiens</field>
+            <field name="author">Harari</field>
+            <field name="isbn">222-333</field>
+            <field name="category_id" ref="demo_cat_3"/>
+        </record>
+
+        <record id="demo_member_1" model="library.member">
+            <field name="name">Mehedi Hasan Rakib</field>
+            <field name="email">mhr@example.com</field>
+            <field name="phone">01860751124</field>
+            <field name="membership_start_date" eval="time.strftime('%Y-%m-%d')"/>
+        </record>
+
+        <record id="demo_member_2" model="library.member">
+            <field name="name">John</field>
+            <field name="email">john@example.com</field>
+            <field name="phone">01622210200</field>
+        </record>
+
+        <record id="demo_member_3" model="library.member">
+            <field name="name"> Khan</field>
+            <field name="email">khan@example.com</field>
+            <field name="phone">01999888777</field>
+        </record>
+    </data>
+</odoo>

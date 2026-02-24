@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_library_book" model="ir.actions.act_window">
+        <field name="name">Books</field>
+        <field name="res_model">library.book</field>
+        <field name="view_mode">kanban,list,form,pivot</field>
+    </record>
+
+    <record id="action_library_member" model="ir.actions.act_window">
+        <field name="name">Members</field>
+        <field name="res_model">library.member</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_library_book_issue" model="ir.actions.act_window">
+        <field name="name">Book Issues</field>
+        <field name="res_model">library.book.issue</field>
+        <field name="view_mode">list,form,graph</field>
+    </record>
+
+    <record id="action_library_category" model="ir.actions.act_window">
+        <field name="name">Categories</field>
+        <field name="res_model">library.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_library_root" name="Library" sequence="10"/>
+
+    <menuitem id="menu_library_books" 
+              name="Books" 
+              parent="menu_library_root" 
+              action="action_library_book" 
+              sequence="10"/>
+
+    <menuitem id="menu_library_members" 
+              name="Members" 
+              parent="menu_library_root" 
+              action="action_library_member" 
+              sequence="20"/>
+
+    <menuitem id="menu_library_issues" 
+              name="Book Issue" 
+              parent="menu_library_root" 
+              sequence="30"/>
+
+    <menuitem id="menu_library_report_issue_list" 
+              name="Issues List" 
+              parent="menu_library_issues" 
+              action="action_library_book_issue" 
+              sequence="10"/>
+
+    <menuitem id="menu_wizard_issue_books" 
+              name="Issue Multiple Books" 
+              parent="menu_library_issues" 
+              action="action_book_issue_wizard" 
+              sequence="20"/>
+
+    <menuitem id="menu_wizard_return_books" 
+              name="Return Books" 
+              parent="menu_library_issues" 
+              action="action_book_return_wizard" 
+              sequence="30"/>
+
+    <menuitem id="menu_wizard_member_renewal" 
+              name="Renew Memberships" 
+              parent="menu_library_issues" 
+              action="action_member_renewal_wizard" 
+              sequence="40"/>
+
+    <menuitem id="menu_library_reports" name="Reports" parent="menu_library_root" sequence="90"/>
+
+    <menuitem id="menu_library_report_pdf" 
+              name="Print (PDF)" 
+              parent="menu_library_reports" 
+              action="action_library_report_wizard"
+              sequence="10"/>
+
+    <menuitem id="menu_library_report_excel" 
+              name="Download Excel (Sheet)" 
+              parent="menu_library_reports" 
+              action="action_library_report_wizard"
+              sequence="20"/>
+
+    <menuitem id="menu_library_config" name="Configuration" parent="menu_library_root" sequence="100"/>
+
+    <menuitem id="menu_library_category" 
+              name="Categories" 
+              parent="menu_library_config" 
+              action="action_library_category" 
+              sequence="10"/>
+
+</odoo>

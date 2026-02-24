@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="books_catalog_template" name="Library Books Catalog">
+        <t t-call="website.layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <section class="s_title bg-light pt-5 pb-4">
+                    <div class="container text-center">
+                        <h1 class="display-4 fw-bold">Explore Our Library</h1>
+                        <p class="lead text-muted">Find your next favorite book from our curated collection.</p>
+                    </div>
+                </section>
+
+                <div class="container mt-4 mb-5">
+                    <div class="row">
+                        <div class="col-12 mb-4">
+                            <form action="/library/books" method="get" class="input-group shadow-sm">
+                                <input type="text" name="search" class="form-control form-control-lg" placeholder="Search by book name or author..." t-att-value="search"/>
+                                <button class="btn btn-primary px-4" type="submit">
+                                    <i class="fa fa-search me-1"/> Search
+                                </button>
+                            </form>
+                        </div>
+
+                        <t t-if="books">
+                            <t t-foreach="books" t-as="book">
+                                <div class="col-md-3 col-sm-6 mb-4">
+                                    <div class="card h-100 border-0 shadow-sm hover-shadow transition">
+                                        <div class="text-center bg-secondary py-5 text-white rounded-top" style="height: 180px; overflow: hidden;">
+                                            <t t-if="book.image">
+                                                <img t-attf-src="data:image/png;base64,#{book.image}" class="img-fluid h-100 w-100" style="object-fit: cover;"/>
+                                            </t>
+                                            <t t-else="">
+                                                <i class="fa fa-book fa-5x opacity-25" style="margin-top: 20px;"/>
+                                            </t>
+                                        </div>
+                                        <div class="card-body">
+                                            <span class="badge bg-info mb-2 text-white">
+                                                <t t-if="book.category_id" t-esc="book.category_id.name"/>
+                                                <t t-else="">General</t>
+                                            </span>
+                                            <h5 class="card-title text-truncate fw-bold"><t t-esc="book.name"/></h5>
+                                            <p class="card-text text-muted small">
+                                                <i class="fa fa-user-circle me-1"/> <t t-esc="book.author"/>
+                                            </p>
+                                        </div>
+                                        <div class="card-footer bg-white border-0 pb-3">
+                                            <div class="d-grid">
+                                                <a t-attf-href="/library/book/#{book.id}" class="btn btn-outline-primary btn-sm">View Details</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <div class="col-12 text-center py-5">
+                                <h3 class="text-muted">No books found.</h3>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="book_detail_template" name="Book Details">
+        <t t-call="website.layout">
+            <div class="container mt-5 mb-5">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb bg-transparent p-0">
+                        <li class="breadcrumb-item"><a href="/library/books">Catalog</a></li>
+                        <li class="breadcrumb-item active"><t t-esc="book.name"/></li>
+                    </ol>
+                </nav>
+
+                <div class="row bg-white shadow-sm rounded p-4">
+                    <div class="col-md-4 text-center border-end">
+                        <div class="bg-light py-5 rounded mb-3">
+                            <t t-if="book.image">
+                                <img t-attf-src="data:image/png;base64,#{book.image}" class="img-fluid rounded shadow-sm"/>
+                            </t>
+                            <t t-else="">
+                                <i class="fa fa-book fa-10x text-secondary opacity-25"/>
+                            </t>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8 ps-md-5">
+                        <h1 class="fw-bold mb-1"><t t-esc="book.name"/></h1>
+                        <h4 class="text-primary mb-3">By <t t-esc="book.author"/></h4>
+                        
+                        <div class="mb-4">
+                            <t t-if="book.available_copies &gt; 0">
+                                <span class="badge bg-success p-2">
+                                    <i class="fa fa-check-circle me-1"/> Available: <t t-esc="book.available_copies"/> Copies
+                                </span>
+                            </t>
+                            <t t-else="">
+                                <span class="badge bg-danger p-2">
+                                    <i class="fa fa-times-circle me-1"/> Out of Stock
+                                </span>
+                            </t>
+                        </div>
+
+                        <h5 class="fw-bold border-bottom pb-2">Description</h5>
+                        <p class="text-muted"><t t-esc="book.description_text or 'No description available for this book.'"/></p>
+
+                        <div class="row mt-4 bg-light p-3 rounded">
+                            <div class="col-6">
+                                <strong>ISBN:</strong> <p class="mb-0 text-muted"><t t-esc="book.isbn or 'N/A'"/></p>
+                            </div>
+                            <div class="col-6">
+                                <strong>Publisher:</strong> <p class="mb-0 text-muted"><t t-esc="book.publisher or 'N/A'"/></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="member_portal_template" name="Member Portal">
+        <t t-call="website.layout">
+            <div class="container mt-5 mb-5">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card shadow-sm border-0 mb-4">
+                            <div class="card-body text-center">
+                                <div class="mb-3">
+                                    <i class="fa fa-user-circle fa-5x text-primary opacity-75"/>
+                                </div>
+                                <h3 class="fw-bold"><t t-esc="member.name"/></h3>
+                                <p class="text-muted"><t t-esc="member.email"/></p>
+                                <span class="badge bg-primary p-2">Member ID: <t t-esc="member.member_number"/></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="card shadow-sm border-0">
+                            <div class="card-header bg-white py-3">
+                                <h4 class="mb-0 fw-bold">Your Borrowing History</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Book</th>
+                                                <th>Issue Date</th>
+                                                <th>Return Date</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-if="issues">
+                                                <t t-foreach="issues" t-as="issue">
+                                                    <tr>
+                                                        <td class="fw-bold"><t t-esc="issue.book_id.name"/></td>
+                                                        <td><t t-esc="issue.issue_date"/></td>
+                                                        <td><t t-esc="issue.return_date or 'Not Returned'"/></td>
+                                                        <td>
+                                                            <span t-attf-class="badge #{'bg-success' if issue.status == 'returned' else 'bg-warning'}">
+                                                                <t t-esc="issue.status.capitalize()"/>
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+                                            <t t-else="">
+                                                <tr>
+                                                    <td colspan="4" class="text-center text-muted py-4">You haven't borrowed any books yet.</td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>

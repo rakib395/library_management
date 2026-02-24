@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_book_issue_card">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+
+                    <div class="page" style="font-family: 'Helvetica';">
+
+                        <div class="text-center" style="border-bottom: 2px solid #333; margin-bottom: 30px; padding-bottom: 10px;">
+                            <h2 style="text-transform: uppercase; letter-spacing: 2px; color: #2c3e50;">Book Issue Card</h2>
+                        </div>
+
+                        <div class="row" style="margin-bottom: 20px;">
+                            <div class="col-6">
+                                <div style="margin-bottom: 5px;">
+                                    <strong>Member: </strong> 
+                                    <span t-field="o.name" style="margin-left: 5px;"/>
+                                </div>
+                                <div>
+                                    <strong>Member ID: </strong> 
+                                    <span t-field="o.member_number" style="margin-left: 5px;"/>
+                                </div>
+                            </div>
+
+                            <div class="col-6 text-end">
+                                <div style="margin-bottom: 5px;">
+                                    <strong>Print Date: </strong> 
+                                    <span t-esc="o.env.context.get('tz_date') or o.create_date.strftime('%Y-%m-%d')" style="margin-left: 5px;"/>
+                                </div>
+                                <div>
+                                    <strong>Membership Status: </strong> 
+                                    <span t-field="o.status" style="margin-left: 5px;"/>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br/>
+
+                        <table class="table table-bordered o_main_table" style="border: 1px solid #ddd; border-collapse: collapse; width: 100%;">
+                            
+                            <thead>
+                                <tr style="background-color: #f8f9fa;">
+                                    <th class="text-start" style="padding: 12px; border: 1px solid #ddd;">Book Name</th>
+                                    <th class="text-center" style="padding: 12px; border: 1px solid #ddd;">Issue Date</th>
+                                    <th class="text-center" style="padding: 12px; border: 1px solid #ddd;">Expected Return</th>
+                                    <th class="text-center" style="padding: 12px; border: 1px solid #ddd;">Actual Return</th>
+                                    <th class="text-center" style="padding: 12px; border: 1px solid #ddd;">Fine</th>
+                                    <th class="text-end" style="padding: 12px; border: 1px solid #ddd;">Status</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <t t-set="lines" t-value="o.env['library.book.issue'].sudo().search([('member_id', '=', o.id)])"/>
+                                
+                                <t t-foreach="lines" t-as="line">
+                                    <tr>
+                                        <td class="text-start" style="padding: 10px; border: 1px solid #ddd;">
+                                            <span t-field="line.book_id.name"/>
+                                        </td>
+                                        <td class="text-center" style="padding: 10px; border: 1px solid #ddd;">
+                                            <span t-field="line.issue_date"/>
+                                        </td>
+                                        <td class="text-center" style="padding: 10px; border: 1px solid #ddd;">
+                                            <span t-field="line.expected_return_date"/>
+                                        </td>
+                                        <td class="text-center" style="padding: 10px; border: 1px solid #ddd;">
+                                            <span t-field="line.actual_return_date"/>
+                                        </td>
+                                        <td class="text-center" style="padding: 10px; border: 1px solid #ddd;">
+                                            <span t-field="line.fine_amount"/>
+                                        </td>
+                                        <td class="text-end" style="padding: 10px; border: 1px solid #ddd;">
+                                            <span t-field="line.status" style="font-weight: bold;"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+
+                        </table>
+
+                        <div class="footer_text" style="border-top: 2px solid #333; margin-top: 50px; padding-top: 15px; font-size: 11px; color: #555;">
+                            <p><strong>Terms:</strong> Please return books on time to avoid fines. Daily fine: 10.00 BDT.</p>
+                            <p><em>* Streamline your library with ease! Manage books, track members, and automate fines all in one place.</em></p>
+                        </div>
+
+                    </div>
+
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

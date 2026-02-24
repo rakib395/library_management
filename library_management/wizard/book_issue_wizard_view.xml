@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_book_issue_wizard_form" model="ir.ui.view">
+        <field name="name">book.issue.wizard.form</field>
+        <field name="model">book.issue.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Issue Multiple Books">
+
+                <group>
+                    <group>
+                        <field name="member_id"/>
+                        <field name="issue_date"/>
+                    </group>
+                    <group>
+                        <field name="expected_return_date"/>
+                    </group>
+                </group>
+
+                <separator string="Select Books"/>
+
+                <field name="book_ids" widget="many2many_tags"/>
+
+                <footer>
+                    <button name="action_issue_books" string="Issue Books" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_book_issue_wizard" model="ir.actions.act_window">
+        <field name="name">Book Issue Wizard</field>
+        <field name="res_model">book.issue.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+    <menuitem id="menu_wizard_issue_books" 
+              name="Bulk Issue Wizard" 
+              parent="library_management.menu_library_issues" 
+              action="action_book_issue_wizard" 
+              sequence="40"/>
+
+</odoo>

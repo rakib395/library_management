@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_member_renewal_wizard_form" model="ir.ui.view">
+        <field name="name">member.renewal.wizard.form</field>
+        <field name="model">member.renewal.wizard</field>
+        <field name="arch" type="xml">
+
+            <form string="Member Renewal">
+                <group>
+                    
+                    <field name="member_ids" widget="many2many_tags" options="{'no_create': True}"/>
+
+                    <field name="new_expiry_date"/>
+
+                </group>
+
+                <footer>
+                    <button name="action_renew_membership" string="Renew Membership" type="object" class="btn-primary"/>
+                    
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+
+        </field>
+    </record>
+
+
+    <record id="action_member_renewal_wizard" model="ir.actions.act_window">
+        <field name="name">Member Renewal Wizard</field>
+        <field name="res_model">member.renewal.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+
+    <menuitem id="menu_wizard_member_renewal" 
+              name="Bulk Member Renewal" 
+              parent="library_management.menu_library_issues" 
+              action="action_member_renewal_wizard" 
+              sequence="60"/>
+
+</odoo>

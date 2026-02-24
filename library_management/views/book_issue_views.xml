@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_book_issue_tree" model="ir.ui.view">
+        <field name="name">library.book.issue.tree</field>
+        <field name="model">library.book.issue</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="status == 'overdue'" decoration-success="status == 'returned'">
+                <field name="member_id"/>
+                <field name="book_id"/>
+                <field name="issue_date"/>
+                <field name="expected_return_date"/>
+                
+                <field name="days_overdue" groups="library_management.group_library_manager"/>
+                
+                <field name="fine_amount" sum="Total Fine" groups="library_management.group_library_manager"/>
+                
+                <field name="status" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_book_issue_form" model="ir.ui.view">
+        <field name="name">library.book.issue.form</field>
+        <field name="model">library.book.issue</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_return_book" 
+                            string="Return Book" 
+                            type="object" 
+                            class="btn-primary" 
+                            invisible="status != 'issued'"/>
+                    
+                    <field name="status" widget="statusbar" statusbar_visible="issued,returned,overdue"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group string="Issue Details">
+                            <field name="member_id"/>
+                            <field name="book_id"/>
+                        </group>
+                        <group string="Dates &amp; Fines">
+                            <field name="issue_date"/>
+                            <field name="expected_return_date"/>
+                            <field name="actual_return_date" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Fines Information" groups="library_management.group_library_manager">
+                        <group>
+                            <field name="days_overdue"/>
+                            <field name="fine_amount"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_book_issue_graph" model="ir.ui.view">
+        <field name="name">library.book.issue.graph</field>
+        <field name="model">library.book.issue</field>
+        <field name="arch" type="xml">
+            <graph string="Book Issues Statistics" type="bar" sample="1">
+                <field name="issue_date" interval="month"/>
+                <field name="status"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_library_book_issue" model="ir.actions.act_window">
+        <field name="name">Book Issues</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">library.book.issue</field>
+        <field name="view_mode">list,form,graph</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Issue your first book!
+            </p>
+        </field>
+    </record>
+</odoo>

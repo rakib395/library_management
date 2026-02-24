@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_book_tree" model="ir.ui.view">
+        <field name="name">library.book.tree</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="isbn"/>
+                <field name="author"/>
+                <field name="category_id" optional="show"/>
+                <field name="available_copies"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_book_kanban" model="ir.ui.view">
+        <field name="name">library.book.kanban</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('library.book', 'image', record.id.raw_value)" class="o_image_64_contain"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong><field name="name"/></strong>
+                                <div><field name="author"/></div>
+                                <div>Status: <field name="status"/></div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_book_form" model="ir.ui.view">
+        <field name="name">library.book.form</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="isbn"/>
+                            <field name="author"/>
+                        </group>
+                        <group>
+                            <field name="category_id"/>
+                            
+                            <field name="total_copies" groups="library_management.group_library_manager"/>
+                            
+                            <field name="available_copies"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Publication Info">
+                            <group>
+                                <field name="publisher"/>
+                                <field name="publication_date"/>
+                                <field name="status"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_book_pivot" model="ir.ui.view">
+        <field name="name">library.book.pivot</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="category_id" type="row"/>
+                <field name="author" type="col"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_book_search" model="ir.ui.view">
+        <field name="name">library.book.search</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="isbn"/>
+                <filter name="available" string="Available Books" domain="[('available_copies', '>', 0)]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_category" string="Category" context="{'group_by':'category_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>
